@@ -1,0 +1,181 @@
+-- Create User Table
+CREATE TABLE User (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create University Table
+CREATE TABLE University (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255)
+);
+
+-- Create College Table
+CREATE TABLE College (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    university_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    location VARCHAR(255),
+    FOREIGN KEY (university_id) REFERENCES University(id)
+);
+
+-- Create Department Table
+CREATE TABLE Department (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    college_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (college_id) REFERENCES College(id)
+);
+
+-- Create Student Table
+CREATE TABLE Student (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    department_id INTEGER NOT NULL,
+    enrollment_number VARCHAR(20) NOT NULL UNIQUE,
+    year INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES User(id),
+    FOREIGN KEY (department_id) REFERENCES Department(id)
+);
+
+-- Create Faculty Table
+CREATE TABLE Faculty (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    department_id INTEGER NOT NULL,
+    designation VARCHAR(100) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES User(id),
+    FOREIGN KEY (department_id) REFERENCES Department(id)
+);
+
+-- Create Course Table
+CREATE TABLE Course (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    department_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    code VARCHAR(20) NOT NULL UNIQUE,
+    faculty_id INTEGER NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES Department(id),
+    FOREIGN KEY (faculty_id) REFERENCES Faculty(id)
+);
+
+-- Create Enrollment Table
+CREATE TABLE Enrollment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    course_id INTEGER NOT NULL,
+    date_enrolled DATE NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES Student(id),
+    FOREIGN KEY (course_id) REFERENCES Course(id)
+);
+
+-- Create Exam Table
+CREATE TABLE Exam (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    course_id INTEGER NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES Course(id)
+);
+
+-- Create Result Table
+CREATE TABLE Result (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    exam_id INTEGER NOT NULL,
+    marks_obtained FLOAT NOT NULL,
+    total_marks FLOAT NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES Student(id),
+    FOREIGN KEY (exam_id) REFERENCES Exam(id)
+);
+
+-- Create Attendance Table
+CREATE TABLE Attendance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    course_id INTEGER NOT NULL,
+    date DATE NOT NULL,
+    status BOOLEAN NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES Student(id),
+    FOREIGN KEY (course_id) REFERENCES Course(id)
+);
+
+-- Insert Data into User Table
+INSERT INTO User (name, email, password) VALUES 
+('Jannatun', 'efa@gmail.com', 'pass123'),
+('Natasha Rai', 'natasharai@gmail.com', 'securepass'),
+('Bishal Chetrri', 'bishalxtrri@gmail.com', 'bishalpass');
+
+-- Insert Data into University Table
+INSERT INTO University (name, location) VALUES 
+('Sikkim University', 'India'),
+('Sikkim University', 'India');
+
+-- Insert Data into College Table
+INSERT INTO College (university_id, name, location) VALUES 
+(1, 'BEd College', 'Sikkim, India'),
+(2, 'SIST College', 'Sikkim, India');
+
+-- Insert Data into Department Table
+INSERT INTO Department (college_id, name) VALUES 
+(1, 'Computer Science'),
+(1, 'Mechanical Engineering'),
+(2, 'Civil Engineering'),
+(2, 'Chemical Engineering');
+
+-- Insert Data into Student Table
+INSERT INTO Student (user_id, department_id, enrollment_number, year) VALUES 
+(1, 1, 'CS2025001', 2025),
+(2, 2, 'ME2025002', 2025),
+(3, 3, 'CE2025003', 2025);
+
+-- Insert Data into Faculty Table
+INSERT INTO Faculty (user_id, department_id, designation) VALUES 
+(2, 1, 'Professor'),
+(3, 3, 'Lecturer');
+
+-- Insert Data into Course Table
+INSERT INTO Course (department_id, name, code, faculty_id) VALUES 
+(1, 'Database Systems', 'CS101', 1),
+(2, 'Thermodynamics', 'ME102', 1),
+(3, 'Corporate Finance', 'FIN103', 2);
+
+-- Insert Data into Enrollment Table
+INSERT INTO Enrollment (student_id, course_id, date_enrolled) VALUES 
+(1, 1, '2025-01-10'),
+(2, 2, '2025-01-15'),
+(3, 3, '2025-01-20');
+
+-- Insert Data into Exam Table
+INSERT INTO Exam (course_id, name, date) VALUES 
+(1, 'Midterm Exam', '2025-03-01'),
+(2, 'Final Exam', '2025-06-10'),
+(3, 'Quarterly Test', '2025-04-15');
+
+-- Insert Data into Result Table
+INSERT INTO Result (student_id, exam_id, marks_obtained, total_marks) VALUES 
+(1, 1, 85, 100),
+(2, 2, 78, 100),
+(3, 3, 92, 100);
+
+-- Insert Data into Attendance Table
+INSERT INTO Attendance (student_id, course_id, date, status) VALUES 
+(1, 1, '2025-03-01', 1),
+(2, 2, '2025-03-02', 0),
+(3, 3, '2025-03-03', 1);
+
+-- Select All Data
+SELECT * FROM User;
+SELECT * FROM University;
+SELECT * FROM College;
+SELECT * FROM Department;
+SELECT * FROM Student;
+SELECT * FROM Faculty;
+SELECT * FROM Course;
+SELECT * FROM Enrollment;
+SELECT * FROM Exam;
+SELECT * FROM Result;
+SELECT * FROM Attendance;
