@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>University Management System</h1>
+    </header>
+
+    <nav>
+        <button onclick="showSection('login')">Login</button>
+        <button onclick="showSection('students')">Students</button>
+        <button onclick="showSection('faculty')">Faculty</button>
+        <button onclick="showSection('courses')">Courses</button>
+    </nav>
+
+    <section id="login" class="content">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+    <section id="students" class="content">
+        <h2>Students</h2>
+        <form id="studentForm">
+            <input type="text" id="studentName" placeholder="Student Name" required>
+            <input type="text" id="enrollmentNumber" placeholder="Enrollment Number" required>
+            <input type="text" id="departmentId" placeholder="Department ID" required>
+            <input type="number" id="year" placeholder="Year" required>
+            <button type="submit">Add Student</button>
+        </form>
+        <div id="studentList"></div>
+    </section>
+
+    <section id="faculty" class="content">
+        <h2>Faculty</h2>
+        <form id="facultyForm">
+            <input type="text" id="facultyName" placeholder="Faculty Name" required>
+            <input type="text" id="departmentIdFaculty" placeholder="Department ID" required>
+            <input type="text" id="designation" placeholder="Designation" required>
+            <button type="submit">Add Faculty</button>
+        </form>
+        <div id="facultyList"></div>
+    </section>
+
+    <section id="courses" class="content">
+        <h2>Courses</h2>
+        <form id="courseForm">
+            <input type="text" id="courseName" placeholder="Course Name" required>
+            <input type="text" id="courseCode" placeholder="Course Code" required>
+            <input type="text" id="departmentIdCourse" placeholder="Department ID" required>
+            <button type="submit">Add Course</button>
+        </form>
+        <div id="courseList"></div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
+//css
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+
+nav {
+    margin: 10px;
+}
+
+nav button {
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.content {
+    display: none;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+form {
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}
+
+form input, form button {
+    margin: 5px 0;
+    padding: 10px;
+}
+//js
+function showSection(sectionId) {
+    document.querySelectorAll('.content').forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Handle Login
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert('Login functionality to be implemented.');
+});
+
+// Handle Adding Students
+document.getElementById('studentForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let name = document.getElementById('studentName').value;
+    let enrollment = document.getElementById('enrollmentNumber').value;
+    let departmentId = document.getElementById('departmentId').value;
+    let year = document.getElementById('year').value;
+
+    let studentDiv = document.createElement('div');
+    studentDiv.textContent = `Name: ${name}, Enrollment: ${enrollment}, Department: ${departmentId}, Year: ${year}`;
+    document.getElementById('studentList').appendChild(studentDiv);
+});
+
+// Handle Adding Faculty
+document.getElementById('facultyForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let name = document.getElementById('facultyName').value;
+    let departmentId = document.getElementById('departmentIdFaculty').value;
+    let designation = document.getElementById('designation').value;
+
+    let facultyDiv = document.createElement('div');
+    facultyDiv.textContent = `Name: ${name}, Department: ${departmentId}, Designation: ${designation}`;
+    document.getElementById('facultyList').appendChild(facultyDiv);
+});
+
+// Handle Adding Courses
+document.getElementById('courseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let name = document.getElementById('courseName').value;
+    let code = document.getElementById('courseCode').value;
+    let departmentId = document.getElementById('departmentIdCourse').value;
+
+    let courseDiv = document.createElement('div');
+    courseDiv.textContent = `Name: ${name}, Code: ${code}, Department: ${departmentId}`;
+    document.getElementById('courseList').appendChild(courseDiv);
+});
